@@ -1,0 +1,3881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080810">
+<title>AFTERHOURS — Game Archive</title>
+
+<style>
+:root {
+  color-scheme: dark;
+  --bg:#080810;
+  --surface:#10101b;
+  --surface2:#161624;
+  --surface3:#201d31;
+  --line:#29263a;
+  --text:#f5f2ff;
+  --muted:#938da8;
+  --purple:#a78bfa;
+  --purple2:#8057e8;
+  --pink:#ed83bc;
+  --green:#55dda6;
+  --red:#fa647d;
+  --radius:14px;
+}
+
+* { box-sizing:border-box; }
+
+html {
+  scroll-behavior:smooth;
+  scrollbar-color:#51436f #090912;
+}
+
+body {
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse at 50% -25%, #38205255, transparent 55%),
+    var(--bg);
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,
+    "Segoe UI",sans-serif;
+  overflow-x:hidden;
+}
+
+button,input,select { font:inherit; }
+button { cursor:pointer; }
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline:2px solid var(--purple);
+  outline-offset:3px;
+}
+
+::selection { background:#8159d7; color:white; }
+
+.topbar {
+  height:74px;
+  padding:0 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:30;
+  background:#090811ef;
+  border-bottom:1px solid #ffffff0d;
+  backdrop-filter:blur(22px);
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:15px;
+  font-weight:1000;
+  letter-spacing:2.5px;
+}
+
+.brand-mark {
+  width:39px;
+  height:39px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  color:white;
+  font-size:23px;
+  background:linear-gradient(145deg,#c3a7ff,#7950d9);
+  box-shadow:0 0 28px #9063ed55;
+}
+
+.brand small {
+  display:block;
+  color:var(--muted);
+  font-size:8px;
+  letter-spacing:3px;
+  margin-top:4px;
+}
+
+.top-actions {
+  display:flex;
+  gap:9px;
+}
+
+.btn {
+  border:1px solid var(--line);
+  background:var(--surface2);
+  color:var(--text);
+  padding:10px 15px;
+  border-radius:9px;
+  font-size:11px;
+  font-weight:850;
+  transition:.2s;
+}
+
+.btn:hover {
+  border-color:var(--purple);
+  background:var(--surface3);
+  transform:translateY(-2px);
+}
+
+.btn.primary {
+  border-color:var(--purple2);
+  background:linear-gradient(135deg,#8057e8,#6842bd);
+  box-shadow:0 5px 20px #8057e833;
+}
+
+.btn.primary:hover {
+  background:linear-gradient(135deg,#9875f5,#8057e8);
+}
+
+.btn:disabled {
+  opacity:.5;
+  cursor:wait;
+  transform:none;
+}
+
+.layout {
+  width:min(1500px,100%);
+  margin:auto;
+  padding:35px 5% 70px;
+}
+
+/* HERO */
+
+.hero {
+  min-height:335px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:30px;
+  padding:55px 6%;
+  border:1px solid #7652a744;
+  border-radius:22px;
+  background:
+    radial-gradient(ellipse at 80% 20%,#995fe966,transparent 38%),
+    radial-gradient(ellipse at 90% 110%,#db4d8b33,transparent 45%),
+    linear-gradient(115deg,#20152f,#11101c 65%,#21142e);
+  box-shadow:0 20px 80px #0005;
+}
+
+.hero:before,
+.hero:after {
+  content:"";
+  position:absolute;
+  width:340px;
+  height:340px;
+  right:9%;
+  top:-220px;
+  border:1px solid #d0b4ff20;
+  border-radius:50%;
+  box-shadow:
+    0 0 0 45px #d0b4ff08,
+    0 0 0 90px #d0b4ff05;
+  pointer-events:none;
+}
+
+.hero:after {
+  width:200px;
+  height:200px;
+  right:18%;
+  top:auto;
+  bottom:-155px;
+}
+
+.hero-content {
+  position:relative;
+  z-index:2;
+}
+
+.eyebrow {
+  color:#c9aaff;
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:4px;
+  text-transform:uppercase;
+}
+
+.hero h1 {
+  font-size:clamp(48px,6vw,76px);
+  line-height:.96;
+  letter-spacing:-4px;
+  margin:20px 0;
+  font-weight:1000;
+}
+
+.hero h1 span { color:#c3a5ff; }
+
+.hero p {
+  max-width:520px;
+  color:#b9afc9;
+  font-size:13px;
+  line-height:1.9;
+  margin:0;
+}
+
+.hero-stat {
+  position:relative;
+  z-index:2;
+  min-width:150px;
+  text-align:right;
+}
+
+.hero-stat strong {
+  display:block;
+  font-size:62px;
+  line-height:1;
+  letter-spacing:-4px;
+}
+
+.hero-stat span {
+  display:block;
+  margin-top:12px;
+  color:#b3a5c9;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:3px;
+}
+
+/* STATUS */
+
+.statusbar {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin:20px 0;
+}
+
+.source-status {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:10px 13px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#10101b;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.source-status b { color:var(--text); }
+
+.dot {
+  width:7px;
+  height:7px;
+  flex:none;
+  border-radius:50%;
+  background:#686477;
+}
+
+.dot.loading {
+  background:#eac66d;
+  box-shadow:0 0 10px #eac66d77;
+  animation:pulse 1.2s infinite;
+}
+
+.dot.ok {
+  background:var(--green);
+  box-shadow:0 0 10px #54d6a077;
+}
+
+.dot.bad { background:var(--red); }
+
+@keyframes pulse {
+  50% { opacity:.3; }
+}
+
+/* TOOLBAR */
+
+.toolbar {
+  display:flex;
+  flex-wrap:wrap;
+  gap:11px;
+  margin:30px 0 20px;
+}
+
+.search-wrap {
+  position:relative;
+  flex:1;
+  min-width:220px;
+}
+
+.search-icon {
+  position:absolute;
+  left:15px;
+  top:10px;
+  font-size:17px;
+  color:#b4a3d2;
+  pointer-events:none;
+}
+
+.search {
+  width:100%;
+  height:46px;
+  padding:0 15px 0 43px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--surface);
+  color:var(--text);
+  font-size:12px;
+}
+
+.search:focus { border-color:var(--purple); }
+
+select {
+  height:46px;
+  padding:0 15px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--surface);
+  color:var(--text);
+  font-size:11px;
+  outline:none;
+}
+
+select:focus { border-color:var(--purple); }
+
+/* NAVIGATION */
+
+.tabs {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  padding-bottom:17px;
+  border-bottom:1px solid var(--line);
+}
+
+.tab {
+  padding:10px 16px;
+  border:1px solid transparent;
+  border-radius:9px;
+  background:transparent;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:900;
+  transition:.2s;
+}
+
+.tab:hover {
+  color:white;
+  background:#191725;
+}
+
+.tab.active {
+  color:#e5d9ff;
+  background:#2b2040;
+  border-color:#694e9c;
+  box-shadow:0 0 18px #8455d019;
+}
+
+/* SECTIONS */
+
+.section { margin-top:36px; }
+
+.section-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:12px;
+  margin-bottom:17px;
+}
+
+.section-head h2 {
+  margin:0;
+  font-size:20px;
+  font-weight:950;
+  letter-spacing:-.7px;
+}
+
+.section-head p {
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.section-count {
+  color:var(--muted);
+  font-size:10px;
+}
+
+/* GAME GRID */
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(205px,1fr));
+  gap:17px;
+}
+
+.game-card {
+  min-width:0;
+  overflow:hidden;
+  position:relative;
+  border:1px solid #ffffff10;
+  border-radius:13px;
+  background:linear-gradient(145deg,#151420,#0f0f18);
+  transition:transform .22s,border-color .22s,box-shadow .22s;
+}
+
+.game-card:hover {
+  transform:translateY(-5px);
+  border-color:#8e69c8;
+  box-shadow:0 15px 35px #0008,0 0 25px #8057e81a;
+}
+
+.thumb {
+  height:150px;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  background:#191725;
+}
+
+.thumb img {
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  position:relative;
+  z-index:1;
+  transition:transform .4s,filter .3s;
+}
+
+.game-card:hover .thumb img {
+  transform:scale(1.09);
+  filter:brightness(1.13);
+}
+
+.thumb-fallback {
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 25% 20%,#7955a9,transparent 65%),
+    linear-gradient(145deg,#29203d,#11111c);
+}
+
+.thumb-fallback:before {
+  content:"";
+  position:absolute;
+  width:130px;
+  height:130px;
+  border:1px solid #ffffff20;
+  border-radius:50%;
+  box-shadow:0 0 0 25px #ffffff08,0 0 0 50px #ffffff05;
+}
+
+.thumb-fallback span {
+  position:relative;
+  color:#e1d1ff;
+  font-size:45px;
+  font-weight:1000;
+  text-shadow:0 4px 20px #000a;
+}
+
+.source-tag {
+  position:absolute;
+  left:9px;
+  top:9px;
+  z-index:3;
+  padding:6px 8px;
+  border:1px solid #ffffff22;
+  border-radius:6px;
+  background:#09090edb;
+  color:#e9e1f4;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:1px;
+  backdrop-filter:blur(7px);
+}
+
+.fav {
+  position:absolute;
+  top:8px;
+  right:8px;
+  z-index:4;
+  width:31px;
+  height:31px;
+  display:grid;
+  place-items:center;
+  border:1px solid #ffffff25;
+  border-radius:50%;
+  background:#09090edb;
+  color:white;
+  font-size:17px;
+  transition:.2s;
+}
+
+.fav:hover {
+  background:#482336;
+  color:#ff819c;
+}
+
+.fav.active { color:#ff6683; }
+
+.card-info { padding:13px; }
+
+.card-title {
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:950;
+}
+
+.card-meta {
+  min-height:15px;
+  display:flex;
+  justify-content:space-between;
+  gap:7px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.card-meta span {
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.card-play {
+  width:100%;
+  margin-top:13px;
+  padding:10px;
+  border:1px solid #49366b;
+  border-radius:8px;
+  background:linear-gradient(110deg,#281e3c,#21192f);
+  color:#ddcaff;
+  font-size:9px;
+  font-weight:950;
+  letter-spacing:1.2px;
+  transition:.2s;
+}
+
+.card-play:hover {
+  border-color:#a68afa;
+  background:linear-gradient(110deg,#6844b3,#473078);
+  color:white;
+}
+
+.empty {
+  grid-column:1/-1;
+  padding:45px 15px;
+  border:1px dashed var(--line);
+  border-radius:12px;
+  color:var(--muted);
+  text-align:center;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.empty strong {
+  display:block;
+  margin-bottom:5px;
+  color:var(--text);
+  font-size:14px;
+}
+
+.load-more-wrap {
+  display:flex;
+  justify-content:center;
+  margin-top:24px;
+}
+
+#loadMoreButton { min-width:210px; }
+
+#loadingMessage {
+  margin-top:22px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+#allGamesSection { scroll-margin-top:100px; }
+
+/* FOOTER */
+
+.footer {
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:60px;
+  padding:25px 0;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:.7px;
+}
+
+/* GAME PLAYER */
+
+.overlay {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:#000e;
+  backdrop-filter:blur(12px);
+}
+
+.overlay.open { display:flex; }
+
+.player {
+  width:min(1400px,100%);
+  height:min(900px,95vh);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  border:1px solid #59436e;
+  border-radius:14px;
+  background:#0b0a10;
+  box-shadow:0 30px 100px #000b;
+}
+
+.player-head {
+  min-height:57px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:0 15px;
+  border-bottom:1px solid var(--line);
+  background:#12111b;
+}
+
+.player-title {
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:12px;
+  font-weight:950;
+}
+
+.player-actions {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  flex:none;
+}
+
+.player-actions button {
+  padding:8px 11px;
+  font-size:9px;
+}
+
+#gameFrame {
+  flex:1;
+  width:100%;
+  min-height:0;
+  border:0;
+  background:#000;
+}
+
+.player-note {
+  padding:10px 13px;
+  border-top:1px solid var(--line);
+  background:#111019;
+  color:var(--muted);
+  font-size:9px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:750px) {
+  .topbar {
+    height:65px;
+    padding:0 15px;
+  }
+
+  .brand { font-size:12px; }
+  .brand-mark { width:33px; height:33px; }
+  .brand small { font-size:7px; }
+
+  .top-actions { gap:5px; }
+  .top-actions .btn { padding:8px 9px; font-size:9px; }
+
+  .layout { padding:20px 15px 45px; }
+
+  .hero {
+    min-height:240px;
+    padding:30px;
+  }
+
+  .hero h1 { font-size:48px; }
+  .hero-stat { display:none; }
+
+  .grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+
+  .thumb { height:115px; }
+  .card-info { padding:10px; }
+  .card-title { font-size:11px; }
+
+  .toolbar select { flex:1; }
+
+  .player { height:96vh; }
+  .player-head { padding:0 8px; }
+  .player-actions { gap:3px; }
+  .player-actions button { padding:7px 6px; font-size:8px; }
+}
+
+@media(max-width:390px) {
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .thumb { height:95px; }
+  .player-actions button { font-size:7px; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">A</div>
+    <div>
+      AFTERHOURS
+      <small>THE BROWSER GAME ARCHIVE</small>
+    </div>
+  </div>
+
+  <div class="top-actions">
+    <button class="btn" id="favoritesShortcut">♥ Favorites</button>
+    <button class="btn primary" id="refreshButton">↻ Sync</button>
+  </div>
+</header>
+
+<main class="layout">
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">YOUR GAMES. ONE PLACE.</div>
+      <h1>Stay a little<br><span>longer.</span></h1>
+      <p>
+        A growing archive of browser games from across the internet.
+        Discover something new, launch it, and lose track of time.
+      </p>
+    </div>
+
+    <div class="hero-stat">
+      <strong id="totalCount">—</strong>
+      <span>GAMES DISCOVERED</span>
+    </div>
+  </section>
+
+  <div class="statusbar" id="sourceStatuses"></div>
+
+  <div class="toolbar">
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input class="search" id="searchInput"
+        placeholder="Search games…" autocomplete="off">
+    </div>
+
+    <select id="sourceFilter">
+      <option value="all">All catalogs</option>
+      <option value="wasm">Catalog One</option>
+      <option value="brain">Catalog Two</option>
+      <option value="itch">Catalog Three</option>
+      <option value="open">Catalog Four</option>
+    </select>
+
+    <select id="sortSelect">
+      <option value="default">Recommended</option>
+      <option value="az">Name: A–Z</option>
+      <option value="za">Name: Z–A</option>
+    </select>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-view="all">All Games</button>
+    <button class="tab" data-view="featured">Featured</button>
+    <button class="tab" data-view="recent">Recently Played</button>
+    <button class="tab" data-view="favorites">Favorites ♥</button>
+  </div>
+
+  <section class="section" id="featuredSection">
+    <div class="section-head">
+      <div>
+        <h2>Featured</h2>
+        <p>Standout games from the connected catalogs</p>
+      </div>
+      <span class="section-count" id="featuredCount"></span>
+    </div>
+    <div class="grid" id="featuredGrid">
+      <div class="empty">
+        <strong>Finding games…</strong>
+        Catalogs are loading.
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="recentSection">
+    <div class="section-head">
+      <div>
+        <h2>Pick up where you left off</h2>
+        <p>Your recently played games</p>
+      </div>
+      <span class="section-count" id="recentCount"></span>
+    </div>
+    <div class="grid" id="recentGrid">
+      <div class="empty">Your play history will appear here.</div>
+    </div>
+  </section>
+
+  <section class="section" id="allGamesSection">
+    <div class="section-head">
+      <div>
+        <h2 id="mainHeading">All Games</h2>
+        <p id="mainDescription">
+          Everything currently discovered by AFTERHOURS
+        </p>
+      </div>
+      <span class="section-count" id="resultCount"></span>
+    </div>
+
+    <div class="grid" id="gamesGrid">
+      <div class="empty">
+        <strong>Loading catalogs…</strong>
+        Games will appear as sources respond.
+      </div>
+    </div>
+
+    <div class="load-more-wrap">
+      <button class="btn" id="loadMoreButton" style="display:none">
+        Load more games
+      </button>
+    </div>
+  </section>
+
+  <div id="loadingMessage">Connecting to game catalogs…</div>
+
+  <footer class="footer">
+    <span>AFTERHOURS · A PERSONAL BROWSER GAME ARCHIVE</span>
+    <span>Games remain hosted by their original sources.</span>
+  </footer>
+
+</main>
+
+<div class="overlay" id="playerOverlay">
+  <div class="player">
+
+    <div class="player-head">
+      <div class="player-title" id="playerTitle">Game</div>
+
+      <div class="player-actions">
+        <button class="btn" id="openExternal">Open source ↗</button>
+        <button class="btn" id="reloadGame">Reload</button>
+        <button class="btn" id="fullscreenGame">Fullscreen</button>
+        <button class="btn" id="closePlayer">✕</button>
+      </div>
+    </div>
+
+    <iframe id="gameFrame" title="Game player"
+      allow="autoplay; fullscreen; gamepad; clipboard-read; clipboard-write; web-share"
+      referrerpolicy="strict-origin-when-cross-origin">
+    </iframe>
+
+    <div class="player-note">
+      Some games prevent embedding. If a game does not appear,
+      use Open source to launch it directly.
+    </div>
+
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* =========================================================
+   CONFIGURATION
+========================================================= */
+
+const SOURCES = {
+  wasm: {
+    name: "Catalog One",
+    tag: "CATALOG ONE",
+    root: "https://wasm.rip/",
+    catalog: "https://raw.githubusercontent.com/wasmdotrip/wasm.rip/main/games.json",
+    timeout: 15000
+  },
+
+  brain: {
+    name: "Catalog Two",
+    tag: "CATALOG TWO",
+    root: "https://brainworxedu.github.io/",
+    catalog: "https://brainworxedu.github.io/classes.html",
+    timeout: 15000
+  },
+
+  itch: {
+  name: "itch.io HTML5",
+  tag: "CATALOG THREE",
+  root: "https://itch.io/",
+  readerRoot: "https://r.jina.ai/http://itch.io/games/top-rated/free/html5.xml",
+  timeout: 30000
+},
+
+  open: {
+    name: "Open Source Games",
+    tag: "CATALOG FOUR",
+    root: "https://opensourcegames.dev/",
+    readerRoot: "https://r.jina.ai/https://opensourcegames.dev/",
+    timeout: 30000
+  }
+};
+
+const OPEN_SOURCE_PAGES = [
+  "action-and-shooters",
+  "exploration",
+  "simulation",
+  "strategy",
+  "puzzle"
+];
+
+const CACHE_KEY = "afterhours_catalog_cache_v9";
+const FAVORITES_KEY = "afterhours_favorites_v3";
+const RECENT_KEY = "afterhours_recent_v3";
+
+const CACHE_MAX_AGE = 1000 * 60 * 60 * 24 * 14;
+const PAGE_SIZE = 120;
+const ITCH_MAX_PAGES = 30;
+
+/* =========================================================
+   CURATED ITCH.IO HTML5 GAMES
+
+   These are verified browser-game project pages.
+   The live catalog reader is optional; these games are
+   available even when automated discovery is blocked.
+========================================================= */
+
+const ITCH_SEED_GAMES = [
+  {
+    title: "Friday Night Funkin'",
+    url: "https://ninja-muffin24.itch.io/funkin",
+    category: "Rhythm",
+    featured: true
+  },
+  {
+    title: "We Become What We Behold",
+    url: "https://ncase.itch.io/wbwwb",
+    category: "Arcade",
+    featured: true
+  },
+  {
+    title: "Adventures With Anxiety!",
+    url: "https://ncase.itch.io/anxiety",
+    category: "Interactive Fiction",
+    featured: true
+  },
+  {
+    title: "Six Cats Under",
+    url: "https://teambeanloop.itch.io/six-cats-under",
+    category: "Puzzle",
+    featured: true
+  },
+  {
+    title: "Sort the Court!",
+    url: "https://graebor.itch.io/sort-the-court",
+    category: "Simulation",
+    featured: true
+  },
+  {
+    title: "goodbye, doggy",
+    url: "https://picogram.itch.io/goodbye-doggy",
+    category: "Puzzle",
+    featured: true
+  },
+  {
+    title: "Vampire Survivors",
+    url: "https://poncle.itch.io/vampire-survivors",
+    category: "Action / Survival",
+    featured: true
+  },
+  {
+    title: "10 Minutes Till Dawn",
+    url: "https://flanne.itch.io/10-minutes-till-dawn",
+    category: "Action / Survival",
+    featured: true
+  }
+];
+
+/* =========================================================
+   CURATED OPEN SOURCE GAMES
+
+   These are browser-play links from the actual catalog.
+   Entries marked AI-assisted have been excluded.
+========================================================= */
+
+const OPEN_SEED_GAMES = [
+  {
+    title: "Yarn Planet",
+    url: "https://yarn.ynot.games/",
+    category: "Exploration",
+    featured: true
+  },
+  {
+    title: "Snack Hole",
+    url: "https://samadipour.github.io/snack-hole-game/",
+    category: "Action",
+    featured: true
+  },
+  {
+    title: "Cla-Go",
+    url: "https://kwusv55.github.io/Cla-Go/",
+    category: "Shooter",
+    featured: true
+  },
+  {
+    title: "Stardust Isles",
+    url: "https://game.danzechen.world/",
+    category: "Exploration",
+    featured: true
+  },
+  {
+    title: "Turf War: Taipei",
+    url: "https://turfwar.ianhsiao.me/",
+    category: "Shooter",
+    featured: true
+  },
+  {
+    title: "Sakura Fantasy",
+    url: "https://sakura.billpwchan.art/",
+    category: "Exploration"
+  },
+  {
+    title: "Neon Zenith",
+    url: "https://zenith.billpwchan.art/",
+    category: "Racing"
+  },
+  {
+    title: "Wumpus Torture Simulator",
+    url: "https://winchxyz.github.io/wumpus-torture-simulator/",
+    category: "Sandbox"
+  },
+  {
+    title: "Demolition Derby",
+    url: "https://drcollect.github.io/demolition-derby/",
+    category: "Racing"
+  },
+  {
+    title: "Hearthlight",
+    url: "https://hearthlight.github.io/",
+    category: "Role-playing"
+  },
+  {
+    title: "Ocean Drive",
+    url: "https://starknightt.github.io/ocean-drive/",
+    category: "Exploration"
+  },
+  {
+    title: "Voxel Musou",
+    url: "https://voxel-musou.vercel.app/",
+    category: "Action",
+    featured: true
+  },
+  {
+    title: "Vackrooms",
+    url: "https://vackrooms.vercel.app/",
+    category: "Horror",
+    featured: true
+  },
+  {
+    title: "Settlement Village",
+    url: "https://settlement-village.vercel.app/",
+    category: "Strategy"
+  },
+  {
+    title: "Townies",
+    url: "https://townies.town/",
+    category: "Simulation"
+  },
+  {
+    title: "Crystal Clicker",
+    url: "https://drjhonatan00.github.io/Crystal_Clicker/",
+    category: "Idle"
+  },
+  {
+    title: "CityMaker",
+    url: "https://citymaker.0to1app.com/",
+    category: "Puzzle"
+  },
+  {
+    title: "P(DOOM)",
+    url: "https://p-doom.transitivebullsh.it/",
+    category: "Shooter",
+    featured: true
+  },
+  {
+    title: "Regolith",
+    url: "https://winchxyz.github.io/moon-rover/",
+    category: "Simulation",
+    featured: true
+  },
+  {
+    title: "Jungle Trail",
+    url: "https://starknightt.github.io/jungle-trail/",
+    category: "Exploration"
+  },
+  {
+    title: "CISO Simulator",
+    url: "https://game.zerodayclock.com/",
+    category: "Strategy"
+  },
+  {
+    title: "18 Floors of Mayhem",
+    url: "https://combos.game/play?post_id=09d6a46e602dfeffd3f77178a6091f8c",
+    category: "Action"
+  }
+];
+
+/* =========================================================
+   APPLICATION STATE
+========================================================= */
+
+let games = [];
+
+let sourceState = {
+  wasm: "loading",
+  brain: "loading",
+  itch: "loading",
+  open: "loading"
+};
+
+let sourceMessages = {
+  wasm: "Connecting…",
+  brain: "Connecting…",
+  itch: "Preparing games…",
+  open: "Preparing games…"
+};
+
+let currentView = "all";
+let activeGame = null;
+let refreshInProgress = false;
+let moreLoading = false;
+
+let itchPage = 1;
+let itchHasMore = false;
+
+let openCategoryIndex = -1;
+let openHasMore = false;
+
+let nextMoreSource = "open";
+let displayLimit = PAGE_SIZE;
+
+let catalogRevision = 0;
+
+const $ = id => document.getElementById(id);
+
+const escapeHTML = value =>
+  String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+
+const normalizeText = value =>
+  String(value ?? "").replace(/\s+/g, " ").trim();
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function safeURL(value, base) {
+  if (!value) return "";
+
+  try {
+    const url = new URL(value, base);
+
+    if (
+      url.protocol !== "https:" &&
+      url.protocol !== "http:"
+    ) return "";
+
+    return url.href;
+  } catch {
+    return "";
+  }
+}
+
+function readJSON(key, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(key)) ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function writeJSON(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.warn("Could not save local data:", error);
+  }
+}
+
+let favorites = new Set(
+  readJSON(FAVORITES_KEY, [])
+);
+
+let recent = readJSON(
+  RECENT_KEY,
+  []
+);
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function setSource(source, state, message) {
+  sourceState[source] = state;
+  sourceMessages[source] = message;
+
+  renderStatuses();
+  updateLoadingMessage();
+}
+
+function renderStatuses() {
+  $("sourceStatuses").innerHTML =
+    Object.keys(SOURCES).map(key => `
+      <div class="source-status">
+        <i class="dot ${
+          sourceState[key] === "ok" ? "ok" :
+          sourceState[key] === "bad" ? "bad" : "loading"
+        }"></i>
+
+        <b>${escapeHTML(SOURCES[key].name)}</b>
+
+        <span>${escapeHTML(sourceMessages[key])}</span>
+      </div>
+    `).join("");
+}
+
+function updateLoadingMessage() {
+  const states = Object.values(sourceState);
+
+  const done = states.every(
+    state => state !== "loading"
+  );
+
+  const connected = states.filter(
+    state => state === "ok"
+  ).length;
+
+  if (done) {
+    $("loadingMessage").textContent =
+      `${connected} of 4 catalogs available. ` +
+      `${games.length.toLocaleString()} games available.`;
+  } else {
+    $("loadingMessage").textContent =
+      `Loading catalogs independently · ${connected} connected so far…`;
+  }
+}
+
+/* =========================================================
+   NETWORK
+========================================================= */
+
+async function fetchText(url, timeout = 15000) {
+  const controller = new AbortController();
+
+  const timer = setTimeout(
+    () => controller.abort(),
+    timeout
+  );
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      cache: "no-store",
+      signal: controller.signal,
+      headers: {
+        "Accept": "text/plain,*/*"
+      }
+    });
+
+    if (!response.ok) {
+      const error = new Error(
+        `HTTP ${response.status}`
+      );
+
+      error.status = response.status;
+
+      const retryAfter =
+        response.headers.get("Retry-After");
+
+      if (retryAfter) {
+        const seconds = Number(retryAfter);
+
+        if (Number.isFinite(seconds)) {
+          error.retryAfterMs = Math.max(
+            1000,
+            seconds * 1000
+          );
+        }
+      }
+
+      throw error;
+    }
+
+    return await response.text();
+
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function fetchTextRetry(
+  url,
+  timeout,
+  retries = 1
+) {
+  let lastError;
+
+  for (
+    let attempt = 0;
+    attempt <= retries;
+    attempt++
+  ) {
+    try {
+      return await fetchText(url, timeout);
+
+    } catch (error) {
+      lastError = error;
+
+      if (error.status === 429) break;
+      if (attempt >= retries) break;
+
+      await sleep(900 * (attempt + 1));
+    }
+  }
+
+  throw lastError;
+}
+
+async function fetchJSON(url, timeout) {
+  return JSON.parse(
+    await fetchTextRetry(url, timeout, 1)
+  );
+}
+
+/* =========================================================
+   GAME STORAGE
+========================================================= */
+
+function gameId(source, url) {
+  return `${source}:${url.toLowerCase()}`;
+}
+
+function getSourceCount(source) {
+  return games.filter(
+    game => game.source === source
+  ).length;
+}
+
+function addGame(data) {
+  if (!data || !data.title || !data.url) {
+    return false;
+  }
+
+  if (!SOURCES[data.source]) return false;
+
+  const title = normalizeText(data.title);
+
+  const url = safeURL(
+    data.url,
+    data.base || SOURCES[data.source].root
+  );
+
+  if (
+    !title ||
+    !url ||
+    title.length > 180
+  ) return false;
+
+  const id = gameId(data.source, url);
+
+  const existing = games.find(
+  game => game.id === id
+) || (
+  data.source === "open"
+    ? games.find(game =>
+        game.source === "open" &&
+        normalizeText(game.title).toLowerCase() ===
+          title.toLowerCase()
+      )
+    : null
+);
+
+  if (existing) {
+    let changed = false;
+
+    const image = safeURL(
+      data.image || "",
+      data.base || url
+    );
+
+    const embedUrl = safeURL(
+      data.embedUrl || "",
+      data.base || url
+    );
+
+    if (!existing.image && image) {
+      existing.image = image;
+      changed = true;
+    }
+
+    if (!existing.embedUrl && embedUrl) {
+      existing.embedUrl = embedUrl;
+      changed = true;
+    }
+
+    if (!existing.category && data.category) {
+      existing.category = normalizeText(
+        data.category
+      );
+
+      changed = true;
+    }
+
+    if (data.featured && !existing.featured) {
+      existing.featured = true;
+      changed = true;
+    }
+
+    if (changed) {
+      catalogRevision++;
+    }
+
+    return false;
+  }
+
+  games.push({
+    id,
+    title,
+    url,
+    source: data.source,
+    embedUrl: safeURL(
+      data.embedUrl || "",
+      data.base || url
+    ),
+    image: safeURL(
+      data.image || "",
+      data.base || url
+    ),
+    category: normalizeText(
+      data.category || ""
+    ),
+    featured: !!data.featured
+  });
+
+  catalogRevision++;
+
+  return true;
+}
+
+function seedGames(source, entries) {
+  let added = 0;
+
+  for (const entry of entries) {
+    if (addGame({
+      ...entry,
+      source,
+      base: SOURCES[source].root
+    })) {
+      added++;
+    }
+  }
+
+  return added;
+}
+
+/* =========================================================
+   CATALOG ONE
+========================================================= */
+
+function addWasmGames(data) {
+  if (!Array.isArray(data)) {
+    throw new Error("Unexpected catalog format");
+  }
+
+  const before = games.length;
+
+  for (const item of data) {
+    if (
+      !item ||
+      !item.name ||
+      !item.gameUrl
+    ) continue;
+
+    const url = safeURL(
+      item.gameUrl,
+      SOURCES.wasm.root
+    );
+
+    if (!url) continue;
+
+    addGame({
+      title: item.name,
+      url,
+      image: item.imageUrl,
+      source: "wasm",
+      featured: item.featured === true,
+      base: SOURCES.wasm.root
+    });
+  }
+
+  return games.length - before;
+}
+
+async function loadWasm() {
+  setSource(
+    "wasm",
+    "loading",
+    "Fetching catalog…"
+  );
+
+  try {
+    const data = await fetchJSON(
+      SOURCES.wasm.catalog,
+      SOURCES.wasm.timeout
+    );
+
+    addWasmGames(data);
+
+    setSource(
+      "wasm",
+      "ok",
+      `${getSourceCount("wasm").toLocaleString()} games`
+    );
+
+  } catch (error) {
+    console.warn("Catalog One:", error);
+
+    setSource(
+      "wasm",
+      "bad",
+      error.name === "AbortError"
+        ? "Timed out"
+        : error.status === 429
+          ? "Rate limited"
+          : "Could not load"
+    );
+  }
+
+  renderAll();
+  saveCatalog();
+}
+
+/* =========================================================
+   CATALOG TWO
+========================================================= */
+
+function titleFromSlug(url) {
+  try {
+    let slug =
+      new URL(url).pathname.split("/").pop() || "";
+
+    slug = decodeURIComponent(
+      slug.replace(/\.html?$/i, "")
+    );
+
+    return slug
+      .replace(/[-_]+/g, " ")
+      .replace(/\b\w/g, c => c.toUpperCase());
+
+  } catch {
+    return "Untitled Game";
+  }
+}
+
+function isGenericLinkText(text) {
+  return [
+    "play",
+    "launch",
+    "open",
+    "start",
+    "game",
+    "play now",
+    "click here",
+    "▶",
+    "→",
+    ""
+  ].includes(
+    normalizeText(text).toLowerCase()
+  );
+}
+
+function findBrainCard(anchor) {
+  let node = anchor;
+  let best = anchor.parentElement || anchor;
+
+  for (
+    let depth = 0;
+    depth < 7 && node;
+    depth++
+  ) {
+    const text = normalizeText(
+      node.innerText || node.textContent
+    );
+
+    if (
+      node.querySelector &&
+      text.length > 2 &&
+      text.length < 500
+    ) {
+      best = node;
+
+      if (
+        node.querySelector(
+          "h1,h2,h3,h4,[class*=title],[class*=name],img"
+        )
+      ) {
+        return node;
+      }
+    }
+
+    node = node.parentElement;
+  }
+
+  return best;
+}
+
+function extractBrainTitle(anchor, card, url) {
+  const anchorText = normalizeText(
+    anchor.textContent
+  );
+
+  if (
+    !isGenericLinkText(anchorText) &&
+    anchorText.length >= 2 &&
+    anchorText.length <= 150
+  ) {
+    return anchorText;
+  }
+
+  const selectors = [
+    "[data-title]",
+    "[class*=game-name]",
+    "[class*=game-title]",
+    "[class*=title]",
+    "[class*=name]",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5"
+  ];
+
+  for (const selector of selectors) {
+    for (
+      const element of card.querySelectorAll(selector)
+    ) {
+      const text = normalizeText(
+        element.getAttribute("data-title") ||
+        element.textContent
+      );
+
+      if (
+        text.length >= 2 &&
+        text.length <= 150 &&
+        !isGenericLinkText(text)
+      ) {
+        return text;
+      }
+    }
+  }
+
+  const lines = (
+    card.innerText ||
+    card.textContent ||
+    ""
+  )
+    .split(/\r?\n/)
+    .map(normalizeText)
+    .filter(Boolean);
+
+  for (const line of lines) {
+    if (
+      line.length >= 2 &&
+      line.length <= 120 &&
+      !isGenericLinkText(line)
+    ) {
+      return line;
+    }
+  }
+
+  return titleFromSlug(url);
+}
+
+function extractBrainImage(card) {
+  let node = card;
+
+  for (
+    let depth = 0;
+    depth < 5 && node;
+    depth++, node = node.parentElement
+  ) {
+    const img = node.querySelector?.("img");
+
+    if (img) {
+      const src =
+        img.getAttribute("src") ||
+        img.getAttribute("data-src") ||
+        img.getAttribute("data-lazy-src") ||
+        img.getAttribute("data-original") ||
+        img.getAttribute("srcset")
+          ?.split(",")[0]
+          ?.trim()
+          .split(/\s+/)[0];
+
+      if (src) return src;
+    }
+
+    const picture = node.querySelector?.(
+      "picture source[srcset]"
+    );
+
+    if (picture) {
+      const src = picture.getAttribute("srcset")
+        ?.split(",")[0]
+        ?.trim()
+        .split(/\s+/)[0];
+
+      if (src) return src;
+    }
+  }
+
+  for (
+    const element of [
+      card,
+      ...card.querySelectorAll("*")
+    ]
+  ) {
+    const style =
+      element.getAttribute("style") || "";
+
+    const match = style.match(
+      /background-image\s*:\s*url\(['"]?([^'")]+)['"]?\)/i
+    );
+
+    if (match) return match[1];
+  }
+
+  return "";
+}
+
+function addBrainGames(html) {
+  const doc = new DOMParser().parseFromString(
+    html,
+    "text/html"
+  );
+
+  const anchors = [
+    ...doc.querySelectorAll("a[href]")
+  ].filter(anchor => {
+    return /(?:^|\/)play\/[^?#]+\.html?(?:[?#].*)?$/i
+      .test(anchor.getAttribute("href") || "");
+  });
+
+  const before = games.length;
+  const seen = new Set();
+
+  for (const anchor of anchors) {
+    const url = safeURL(
+      anchor.getAttribute("href"),
+      SOURCES.brain.root
+    );
+
+    if (!url || seen.has(url)) continue;
+
+    seen.add(url);
+
+    const card = findBrainCard(anchor);
+
+    const title = extractBrainTitle(
+      anchor,
+      card,
+      url
+    );
+
+    const image = extractBrainImage(card);
+
+    const categoryElement = card.querySelector(
+      "[class*=category],[class*=genre],.tag"
+    );
+
+    addGame({
+      title,
+      url,
+      image,
+      category: categoryElement?.textContent || "",
+      source: "brain",
+      base: SOURCES.brain.root
+    });
+  }
+
+  const count = games.length - before;
+
+  if (
+    count === 0 &&
+    anchors.length === 0
+  ) {
+    throw new Error("No game links found");
+  }
+
+  if (
+    count === 0 &&
+    getSourceCount("brain") === 0
+  ) {
+    throw new Error("No usable games found");
+  }
+
+  return count;
+}
+
+async function loadBrain() {
+  setSource(
+    "brain",
+    "loading",
+    "Fetching catalog…"
+  );
+
+  try {
+    const html = await fetchText(
+      SOURCES.brain.catalog,
+      SOURCES.brain.timeout
+    );
+
+    addBrainGames(html);
+
+    setSource(
+      "brain",
+      "ok",
+      `${getSourceCount("brain").toLocaleString()} games`
+    );
+
+  } catch (error) {
+    console.warn("Catalog Two:", error);
+
+    setSource(
+      "brain",
+      "bad",
+      error.name === "AbortError"
+        ? "Timed out"
+        : "Could not load"
+    );
+  }
+
+  renderAll();
+  saveCatalog();
+}
+
+/* =========================================================
+   READER RESPONSE HANDLING
+========================================================= */
+
+function unwrapReaderContent(raw) {
+  const text = String(raw ?? "");
+
+  try {
+    const parsed = JSON.parse(text);
+
+    const candidates = [
+      parsed?.data?.content,
+      parsed?.content,
+      parsed?.data?.text,
+      parsed?.text
+    ];
+
+    for (const candidate of candidates) {
+      if (typeof candidate === "string") {
+        return candidate;
+      }
+    }
+
+    if (typeof parsed?.data === "string") {
+      return parsed.data;
+    }
+
+  } catch {
+    // The reader already returned plain text.
+  }
+
+  return text;
+}
+
+function isReaderBlocked(text) {
+  return /just a moment\.\.\.|security verification|performing security verification|verify you are human|checking your browser|captcha|access denied/i
+    .test(String(text || ""));
+}
+
+/* =========================================================
+   MARKDOWN PARSING
+========================================================= */
+
+function extractMarkdownLinks(text) {
+  const results = [];
+
+  const regex =
+    /(!?)\[([^\]]{1,300})\]\(\s*(?:<([^>]+)>|([^) \t]+))(?:\s+["'][^"']*["'])?\s*\)/g;
+
+  let match;
+
+  while ((match = regex.exec(String(text)))) {
+    results.push({
+      text: normalizeText(match[2]),
+      url: match[3] || match[4],
+      index: match.index,
+      end: regex.lastIndex,
+      isImage: match[1] === "!"
+    });
+  }
+
+  return results;
+}
+
+function titleFromMarkdown(value) {
+  return normalizeText(
+    String(value || "")
+      .replace(/^#{1,6}\s*/, "")
+      .replace(/!\[([^\]]*)\]\([^)]*\)/g, "$1")
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+      .replace(/\[([^\]]+)\]\[[^\]]*\]/g, "$1")
+      .replace(/[*_`#]/g, "")
+  );
+}
+
+function extractImageURLs(text, base) {
+  const source = String(text || "");
+  const results = [];
+  const seen = new Set();
+
+  function addImage(raw, index) {
+    if (!raw) return;
+
+    let value = raw.trim();
+
+    if (
+      !value ||
+      value.startsWith("data:") ||
+      value.startsWith("blob:")
+    ) return;
+
+    value = value.replace(/&amp;/g, "&");
+
+    const url = safeURL(value, base);
+
+    if (!url) return;
+
+    if (!/\.(png|jpe?g|webp|gif|avif)(?:[?#]|$)/i.test(url)) {
+      if (
+        !/\/(images?|uploads?|thumbnails?|media)\//i.test(url) &&
+        !/itch\.io/i.test(url)
+      ) return;
+    }
+
+    if (seen.has(url)) return;
+
+    seen.add(url);
+
+    results.push({
+      url,
+      index,
+      isImage: true
+    });
+  }
+
+  // Markdown images.
+  const markdownRegex =
+    /!\[[^\]]*\]\(\s*<?([^)\s>]+)>?(?:\s+["'][^"']*["'])?\s*\)/g;
+
+  let match;
+
+  while ((match = markdownRegex.exec(source))) {
+    addImage(match[1], match.index);
+  }
+
+  // HTML images and lazy-loaded attributes.
+  const doc = new DOMParser().parseFromString(
+    source,
+    "text/html"
+  );
+
+  for (const img of doc.querySelectorAll("img")) {
+    const candidates = [
+      img.getAttribute("src"),
+      img.getAttribute("data-src"),
+      img.getAttribute("data-lazy-src"),
+      img.getAttribute("data-original"),
+      img.getAttribute("data-original-src")
+    ];
+
+    const srcset =
+      img.getAttribute("srcset") ||
+      img.getAttribute("data-srcset");
+
+    if (srcset) {
+      candidates.push(
+        srcset.split(",")[0].trim().split(/\s+/)[0]
+      );
+    }
+
+    for (const candidate of candidates) {
+      if (candidate) {
+        addImage(candidate, source.indexOf(candidate));
+      }
+    }
+  }
+
+  // CSS background images.
+  const backgroundRegex =
+    /background(?:-image)?\s*:\s*url\(["']?([^"')]+)["']?\)/gi;
+
+  while ((match = backgroundRegex.exec(source))) {
+    addImage(match[1], match.index);
+  }
+
+  return results.sort((a, b) => a.index - b.index);
+}
+
+// Find the closest image to a game listing.
+function findNearestImage(position, images, maxDistance = 5000) {
+  let best = null;
+  let bestDistance = Infinity;
+
+  for (const image of images) {
+    const distance = Math.abs(image.index - position);
+
+    if (
+      distance < bestDistance &&
+      distance <= maxDistance
+    ) {
+      best = image;
+      bestDistance = distance;
+    }
+  }
+
+  return best ? best.url : "";
+}
+
+/* =========================================================
+   CATALOG THREE — ITCH.IO HTML5
+========================================================= */
+
+function itchPageURL(page) {
+  const base =
+    "https://r.jina.ai/http://itch.io/games/top-rated/free/html5.xml";
+
+  return page <= 1
+    ? base
+    : `${base}?page=${page}`;
+}
+
+function isItchProjectURL(value) {
+  try {
+    const url = new URL(value);
+
+    if (!/\.itch\.io$/i.test(url.hostname)) {
+      return false;
+    }
+
+    const parts = url.pathname
+      .split("/")
+      .filter(Boolean);
+
+    return parts.length >= 1;
+
+  } catch {
+    return false;
+  }
+}
+
+function isItchGameLink(link) {
+  if (!isItchProjectURL(link.url)) return false;
+
+  if (isGenericLinkText(link.text)) return false;
+
+  return true;
+}
+
+function findItchCategory(text) {
+  const categories = [
+    "Action",
+    "Adventure",
+    "Card Game",
+    "Educational",
+    "Fighting",
+    "Interactive Fiction",
+    "Platformer",
+    "Puzzle",
+    "Racing",
+    "Rhythm",
+    "Role Playing",
+    "Shooter",
+    "Simulation",
+    "Sports",
+    "Strategy",
+    "Survival",
+    "Visual Novel"
+  ];
+
+  for (const category of categories) {
+    const escaped = category.replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&"
+    );
+
+    if (
+      new RegExp(
+        `\\b${escaped}\\b`,
+        "i"
+      ).test(text)
+    ) {
+      return category;
+    }
+  }
+
+  return "HTML5";
+}
+
+
+function parseItchHTML(html, page = 1) {
+  const doc = new DOMParser().parseFromString(
+    html,
+    "text/html"
+  );
+
+  const anchors = [
+    ...doc.querySelectorAll("a[href]")
+  ].filter(anchor => {
+    const url = safeURL(
+      anchor.getAttribute("href"),
+      SOURCES.itch.root
+    );
+
+    if (!url || !isItchProjectURL(url)) {
+      return false;
+    }
+
+    const title = normalizeText(
+      anchor.textContent
+    );
+
+    if (!title || isGenericLinkText(title)) {
+      return false;
+    }
+
+    const card =
+      anchor.closest(
+        ".game_cell,article,li,[class*=game_cell]"
+      ) || anchor.parentElement;
+
+    return /play in browser/i.test(
+      card?.textContent || ""
+    );
+  });
+
+  let found = 0;
+  let added = 0;
+
+  const seen = new Set();
+
+  for (const anchor of anchors) {
+    const url = safeURL(
+      anchor.getAttribute("href"),
+      SOURCES.itch.root
+    );
+
+    if (!url || seen.has(url)) continue;
+
+    seen.add(url);
+
+    const card =
+      anchor.closest(
+        ".game_cell,article,li,[class*=game_cell]"
+      ) || anchor.parentElement;
+
+    const heading = card?.querySelector(
+      ".title,.game_title,h2,h3,h4"
+    );
+
+    const title = normalizeText(
+      heading?.textContent ||
+      anchor.textContent
+    );
+
+    if (!title) continue;
+
+    if (/\b18\+\b|\badult\b/i.test(
+      card?.textContent || ""
+    )) continue;
+
+    const image = card?.querySelector("img");
+
+const imageURL =
+  image?.getAttribute("data-lazy-src") ||
+  image?.getAttribute("data-original") ||
+  image?.getAttribute("data-src") ||
+  image?.getAttribute("src") ||
+  image?.getAttribute("srcset")?.split(",")[0]?.trim().split(/\s+/)[0] ||
+  "";
+
+    const inserted = addGame({
+      title,
+      url,
+      image:
+        image?.getAttribute("src") ||
+        image?.getAttribute("data-src") ||
+        "",
+      category: findItchCategory(
+        card?.textContent || ""
+      ),
+      source: "itch",
+      featured: page === 1 && found < 12,
+      base: SOURCES.itch.root
+    });
+
+    found++;
+
+    if (inserted) added++;
+  }
+
+  return {
+    found,
+    added,
+    hasNextPage: !!doc.querySelector(
+      'a[rel="next"],.pagination a.next'
+    )
+  };
+}
+function parseItchPage(text, page = 1) {
+  return parseItchMarkdown(text, page);
+}
+
+function parseItchMarkdown(text, page = 1) {
+  const content = unwrapReaderContent(text)
+    .replace(/\r/g, "");
+
+  const links = extractMarkdownLinks(content);
+
+  const unique = new Map();
+
+  for (const link of links) {
+    if (!isItchGameLink(link)) continue;
+
+    const url = safeURL(
+      link.url,
+      SOURCES.itch.root
+    );
+
+    if (!url) continue;
+
+    const previous = unique.get(url);
+
+    if (
+      !previous ||
+      link.text.length > previous.text.length
+    ) {
+      unique.set(url, {
+        ...link,
+        url
+      });
+    }
+  }
+
+  const list = [...unique.values()];
+
+  let found = 0;
+  let added = 0;
+
+  const gameIds = [];
+
+  for (let index = 0; index < list.length; index++) {
+    const link = list[index];
+
+    let rawTitle = titleFromMarkdown(link.text);
+
+    if (!rawTitle) continue;
+
+    const tags = [
+      ...rawTitle.matchAll(/\[([^\]]+)\]/g)
+    ].map(match => match[1].trim());
+
+    const title = normalizeText(
+      rawTitle.replace(/\s*\[[^\]]+\]\s*$/g, "")
+    );
+
+    if (
+      !title ||
+      title.length < 2 ||
+      title.length > 180 ||
+      isGenericLinkText(title)
+    ) continue;
+
+    if (
+      /\b18\+\b|\badult\b/i.test(
+        rawTitle
+      )
+    ) continue;
+
+    const category = tags.find(tag =>
+      !/^(free|windows|macos|linux|android|html5|browser|other)$/i.test(tag)
+    ) || "";
+
+    const id = gameId("itch", link.url);
+
+    gameIds.push(id);
+    found++;
+
+    if (addGame({
+      title,
+      url: link.url,
+      image: "",
+      embedUrl: "",
+      category,
+      source: "itch",
+      featured: page === 1 && index < 12,
+      base: SOURCES.itch.root
+    })) {
+      added++;
+    }
+  }
+
+  return {
+    found,
+    added,
+    gameIds,
+    hasNextPage:
+      list.length >= 20 ||
+      /\bNext page\b/i.test(content)
+  };
+}
+
+async function fetchItchPage(page) {
+  const text = await fetchTextRetry(
+    itchPageURL(page),
+    SOURCES.itch.timeout,
+    1
+  );
+
+  if (isReaderBlocked(text)) {
+    return {
+      found: 0,
+      added: 0,
+      gameIds: [],
+      hasNextPage: false,
+      blocked: true
+    };
+  }
+
+  return parseItchPage(text, page);
+}
+
+async function fetchItchProjectDetails(game) {
+  if (!game || game.source !== "itch") {
+    return false;
+  }
+
+  if (game.image && game.embedUrl) {
+    return true;
+  }
+
+  try {
+    const project = new URL(game.url);
+
+    const readerURL =
+      "https://r.jina.ai/http://" +
+      project.host +
+      project.pathname;
+
+    const response = await fetch(readerURL, {
+      headers: {
+        "X-Respond-With": "html"
+      },
+      signal: AbortSignal.timeout(
+        SOURCES.itch.timeout
+      )
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Project request returned HTTP ${response.status}`
+      );
+    }
+
+    const html = await response.text();
+
+    if (!/<html[\s>]/i.test(html)) {
+      throw new Error("Project page did not return HTML");
+    }
+
+    const doc = new DOMParser().parseFromString(
+      html,
+      "text/html"
+    );
+
+    // Extract the cover image.
+    const imageMeta =
+      doc.querySelector('meta[property="og:image"]') ||
+      doc.querySelector('meta[name="twitter:image"]');
+
+    const imageURL = safeURL(
+      imageMeta?.getAttribute("content") || "",
+      game.url
+    );
+
+    // Extract the iframe HTML stored by itch.io.
+    let embedURL = "";
+
+    const placeholders = [
+      ...doc.querySelectorAll(
+        ".iframe_placeholder[data-iframe], [data-iframe]"
+      )
+    ];
+
+    for (const placeholder of placeholders) {
+      const iframeHTML =
+        placeholder.getAttribute("data-iframe") || "";
+
+      if (!iframeHTML) continue;
+
+      const iframeDoc = new DOMParser().parseFromString(
+        iframeHTML,
+        "text/html"
+      );
+
+      const iframe = iframeDoc.querySelector("iframe");
+
+      const candidate = safeURL(
+        iframe?.getAttribute("src") || "",
+        game.url
+      );
+
+      if (candidate) {
+        embedURL = candidate;
+        break;
+      }
+    }
+
+    // Update the existing catalog entry.
+    let changed = false;
+
+    if (imageURL && imageURL !== game.image) {
+      game.image = imageURL;
+      changed = true;
+    }
+
+    if (embedURL && embedURL !== game.embedUrl) {
+      game.embedUrl = embedURL;
+      changed = true;
+    }
+
+    if (changed) {
+      catalogRevision++;
+      saveCatalog();
+    }
+
+    return !!(game.image || game.embedUrl);
+
+  } catch (error) {
+  console.info(
+    `Could not retrieve itch.io details for ${game.title}:`,
+    error.message
+  );
+
+  if (/429/.test(error.message)) {
+    game.detailsRetryAfter = Date.now() + 60000;
+    saveCatalog();
+  }
+
+  return false;
+}
+}
+
+async function enrichItchGames(gameIds) {
+  const queue = [...new Set(gameIds)];
+
+  for (let i = 0; i < queue.length; i++) {
+    const game = getGame(queue[i]);
+
+    if (!game) continue;
+
+    if (game.image && game.embedUrl) continue;
+
+    if (
+      game.detailsRetryAfter &&
+      Date.now() < game.detailsRetryAfter
+    ) {
+      break;
+    }
+
+    const success = await fetchItchProjectDetails(game);
+
+    if (
+      game.detailsRetryAfter &&
+      Date.now() < game.detailsRetryAfter
+    ) {
+      console.warn(
+        "itch.io metadata requests paused because Jina is rate-limiting us."
+      );
+      break;
+    }
+
+    if (i < queue.length - 1) {
+      await new Promise(resolve =>
+        setTimeout(resolve, 3000)
+      );
+    }
+  }
+
+  saveCatalog();
+}
+
+async function loadItch() {
+  seedGames("itch", ITCH_SEED_GAMES);
+
+  setSource(
+    "itch",
+    "loading",
+    "Discovering itch.io games…"
+  );
+
+  try {
+    const result = await fetchItchPage(1);
+
+    itchPage = 1;
+    itchHasMore =
+      result.found > 0 &&
+      result.hasNextPage;
+
+    // Also retrieve metadata for curated games.
+    const allItchIds = games
+      .filter(game => game.source === "itch")
+      .map(game => game.id);
+
+    await enrichItchGames(allItchIds);
+
+    const count = getSourceCount("itch");
+
+    setSource(
+      "itch",
+      "ok",
+      `${count.toLocaleString()} games`
+    );
+
+  } catch (error) {
+    console.info(
+      "itch.io discovery failed:",
+      error.message
+    );
+
+    itchHasMore = false;
+
+    // Still attempt to enrich the curated games.
+    const allItchIds = games
+      .filter(game => game.source === "itch")
+      .map(game => game.id);
+
+    await enrichItchGames(allItchIds);
+
+    setSource(
+      "itch",
+      "ok",
+      `${getSourceCount("itch")} curated games`
+    );
+  }
+
+  renderAll();
+  saveCatalog();
+}
+
+async function loadNextItchPage() {
+  if (moreLoading || !itchHasMore) return;
+
+  moreLoading = true;
+
+  const page = itchPage + 1;
+
+  renderAll();
+
+  try {
+    const result = await fetchItchPage(page);
+
+    if (!result.found) {
+      itchHasMore = false;
+
+      setSource(
+        "itch",
+        "ok",
+        `${getSourceCount("itch")} games`
+      );
+
+      return;
+    }
+
+    itchPage = page;
+
+    itchHasMore =
+      result.hasNextPage &&
+      page < ITCH_MAX_PAGES;
+
+    setSource(
+      "itch",
+      "ok",
+      `${getSourceCount("itch")} games`
+    );
+
+  } catch (error) {
+    console.info(
+      `itch.io page ${page} unavailable.`,
+      error.message
+    );
+
+    itchHasMore = false;
+
+    setSource(
+      "itch",
+      "ok",
+      `${getSourceCount("itch")} curated games`
+    );
+
+  } finally {
+    moreLoading = false;
+
+    renderAll();
+    saveCatalog();
+  }
+}
+
+/* =========================================================
+   CATALOG FOUR — OPEN SOURCE GAMES
+========================================================= */
+
+function openSourcePageURL(path = "") {
+  const cleanPath = String(path || "")
+    .replace(/^\/+|\/+$/g, "");
+
+  return cleanPath
+    ? `https://r.jina.ai/https://opensourcegames.dev/${cleanPath}`
+    : SOURCES.open.readerRoot;
+}
+
+function findHeadingBefore(text, position) {
+  const headings = [
+    ...text.matchAll(
+      /^#{2,6}\s+(.+)$/gm
+    )
+  ].filter(match =>
+    match.index < position
+  );
+
+  return headings.length
+    ? headings[headings.length - 1]
+    : null;
+}
+
+
+
+function parseOpenSourceMarkdown(text) {
+  const content = unwrapReaderContent(text)
+    .replace(/\r/g, "");
+
+  const imageRegex =
+    /!\[([^\]]*)\]\((https?:\/\/[^)\s]+)\)/g;
+
+  const imageMatches = [
+    ...content.matchAll(imageRegex)
+  ];
+
+  let found = 0;
+  let added = 0;
+  let updated = 0;
+
+  const processed = new Set();
+
+  for (let i = 0; i < imageMatches.length; i++) {
+    const match = imageMatches[i];
+
+    const alt = match[1] || "";
+
+    const imageURL = safeURL(
+      match[2],
+      SOURCES.open.root
+    );
+
+    if (!imageURL) continue;
+
+    const start = match.index;
+
+    const end = i + 1 < imageMatches.length
+      ? imageMatches[i + 1].index
+      : content.length;
+
+    const block = content.slice(start, end);
+
+    // Skip the featured section; use the main catalog entries.
+    if (!/\bBrowser play\b/i.test(block)) continue;
+
+    if (/\bAI-assisted\b/i.test(block)) continue;
+
+    let title = alt
+      .replace(/^Image\s+\d+\s*:\s*/i, "")
+      .replace(
+        /\s+(screenshot|official artwork|cover art|gameplay screenshot)$/i,
+        ""
+      )
+      .trim();
+
+    title = normalizeText(title);
+
+    if (
+      !title ||
+      title.length < 2 ||
+      title.length > 180
+    ) continue;
+
+    const categoryMatch = block.match(
+      /\[([^\]]+)\]\((https?:\/\/opensourcegames\.dev\/[^)]+)\)/
+    );
+
+    if (!categoryMatch) continue;
+
+    const category = normalizeText(
+      categoryMatch[1]
+    );
+
+    const categoryURL = safeURL(
+      categoryMatch[2],
+      SOURCES.open.root
+    );
+
+    if (!categoryURL) continue;
+
+    let slug = "";
+
+    try {
+      slug = new URL(imageURL).pathname
+        .split("/")
+        .pop()
+        .replace(/\.(png|jpe?g|webp|gif|avif)$/i, "");
+    } catch {
+      continue;
+    }
+
+    if (!slug) continue;
+
+    // Find the real game URL in the featured listing when possible.
+    const existing = games.find(game =>
+      game.source === "open" &&
+      normalizeText(game.title).toLowerCase() ===
+        title.toLowerCase()
+    );
+
+    let gameURL = existing?.url || "";
+
+    if (!gameURL) {
+      const categoryPath = new URL(categoryURL).pathname
+        .replace(/\/$/, "");
+
+      gameURL = safeURL(
+        `${categoryPath}/${slug}`,
+        SOURCES.open.root
+      );
+    }
+
+    if (!gameURL || processed.has(title.toLowerCase())) {
+      continue;
+    }
+
+    processed.add(title.toLowerCase());
+
+    found++;
+
+    const wasMissing = !existing?.image;
+
+    const wasAdded = addGame({
+      title,
+      url: gameURL,
+      image: imageURL,
+      category,
+      source: "open",
+      featured: false,
+      base: SOURCES.open.root
+    });
+
+    if (wasAdded) {
+      added++;
+    } else if (wasMissing) {
+      updated++;
+    }
+  }
+
+  return {
+    found,
+    added,
+    updated
+  };
+}
+
+
+
+function parseOpenSourceHTML(html) {
+  const doc = new DOMParser().parseFromString(
+    html,
+    "text/html"
+  );
+
+  const playAnchors = [
+    ...doc.querySelectorAll("a[href]")
+  ].filter(anchor =>
+    /^play now$/i.test(
+      normalizeText(anchor.textContent)
+    )
+  );
+
+  let found = 0;
+  let added = 0;
+
+  for (const anchor of playAnchors) {
+    let node = anchor.parentElement;
+    let card = null;
+
+    // Find the nearest containing game card with a heading.
+    for (
+      let depth = 0;
+      depth < 10 && node;
+      depth++, node = node.parentElement
+    ) {
+      const hasHeading = node.querySelector(
+        "h1,h2,h3,h4,h5"
+      );
+
+      const text = normalizeText(
+        node.innerText || node.textContent
+      );
+
+      if (
+        hasHeading &&
+        /\bBrowser\b/i.test(text)
+      ) {
+        card = node;
+        break;
+      }
+    }
+
+    if (!card) continue;
+
+    const cardText = normalizeText(
+      card.innerText || card.textContent
+    );
+
+    if (/\bAI-assisted\b/i.test(cardText)) {
+      continue;
+    }
+
+    const heading = card.querySelector(
+      "h1,h2,h3,h4,h5"
+    );
+
+    const title = normalizeText(
+      heading?.textContent
+    );
+
+    if (!title) continue;
+
+    const url = safeURL(
+      anchor.getAttribute("href"),
+      SOURCES.open.root
+    );
+
+    if (!url) continue;
+
+    const image = card.querySelector("img");
+
+    const imageURL = image
+      ? (
+          image.getAttribute("src") ||
+          image.getAttribute("data-src") ||
+          image.getAttribute("data-lazy-src") ||
+          image.getAttribute("data-original") ||
+          (
+            image.getAttribute("srcset")
+              ? image.getAttribute("srcset").split(",")[0].trim().split(/\s+/)[0]
+              : ""
+          )
+        )
+      : "";
+
+    const categoryLink = [
+      ...card.querySelectorAll("a[href]")
+    ].find(link =>
+      /\/(genres|genre)\//i.test(
+        link.getAttribute("href") || ""
+      )
+    );
+
+    found++;
+
+    if (addGame({
+      title,
+      url,
+      image: imageURL,
+      category:
+        categoryLink?.textContent || "Open source",
+      source: "open",
+      base: SOURCES.open.root
+    })) {
+      added++;
+    }
+  }
+
+  return { found, added };
+}
+
+function parseOpenSourcePage(text) {
+  const content = unwrapReaderContent(text);
+
+  if (
+    /<html[\s>]/i.test(content) &&
+    /<a[\s>]/i.test(content)
+  ) {
+    return parseOpenSourceHTML(content);
+  }
+
+  return parseOpenSourceMarkdown(content);
+}
+
+async function fetchOpenSourcePage(path = "") {
+  const text = await fetchTextRetry(
+    openSourcePageURL(path),
+    SOURCES.open.timeout,
+    1
+  );
+
+  if (isReaderBlocked(text)) {
+    return {
+      found: 0,
+      added: 0,
+      blocked: true
+    };
+  }
+
+  return parseOpenSourcePage(text);
+}
+
+async function loadOpen() {
+  // Static verified entries are available immediately.
+  seedGames("open", OPEN_SEED_GAMES);
+
+  setSource(
+    "open",
+    "loading",
+    "Loading browser-playable games…"
+  );
+
+  try {
+    const result = await fetchOpenSourcePage("");
+
+    openCategoryIndex = -1;
+
+    // Additional categories are enabled only when the
+    // homepage parser successfully identifies game cards.
+    openHasMore = result.found > 0;
+
+    const count = getSourceCount("open");
+
+    if (result.found > 0) {
+      setSource(
+        "open",
+        "ok",
+        `${count.toLocaleString()} games`
+      );
+    } else {
+      setSource(
+        "open",
+        "ok",
+        `${count} curated · live listing unavailable`
+      );
+    }
+
+  } catch (error) {
+    console.info(
+      "Open Source Games live discovery unavailable; using curated games.",
+      error.message
+    );
+
+    openCategoryIndex = -1;
+    openHasMore = false;
+
+    setSource(
+      "open",
+      "ok",
+      `${getSourceCount("open")} curated games`
+    );
+  }
+
+  renderAll();
+  saveCatalog();
+}
+
+async function loadNextOpenPage() {
+  if (moreLoading || !openHasMore) return;
+
+  const nextIndex = openCategoryIndex + 1;
+
+  if (nextIndex >= OPEN_SOURCE_PAGES.length) {
+    openHasMore = false;
+    renderAll();
+    return;
+  }
+
+  moreLoading = true;
+
+  const path = OPEN_SOURCE_PAGES[nextIndex];
+
+  renderAll();
+
+  try {
+    const result = await fetchOpenSourcePage(path);
+
+    openCategoryIndex = nextIndex;
+
+    openHasMore =
+      result.found > 0 &&
+      openCategoryIndex < OPEN_SOURCE_PAGES.length - 1;
+
+    if (result.found > 0) {
+      setSource(
+        "open",
+        "ok",
+        `${getSourceCount("open")} games`
+      );
+    } else {
+      setSource(
+        "open",
+        "ok",
+        `${getSourceCount("open")} games · no more entries found`
+      );
+    }
+
+  } catch (error) {
+    console.info(
+      `Open Source Games category ${path} unavailable.`,
+      error.message
+    );
+
+    openCategoryIndex = nextIndex;
+    openHasMore = false;
+
+    setSource(
+      "open",
+      "ok",
+      `${getSourceCount("open")} curated games`
+    );
+
+  } finally {
+    moreLoading = false;
+
+    renderAll();
+    saveCatalog();
+  }
+}
+
+/* =========================================================
+   CACHE
+========================================================= */
+
+function saveCatalog() {
+  writeJSON(CACHE_KEY, {
+    version: 9,
+    savedAt: Date.now(),
+
+    itchPage,
+    itchHasMore,
+
+    openCategoryIndex,
+    openHasMore,
+
+    games: games.map(game => ({
+      id: game.id,
+      title: game.title,
+      url: game.url,
+      source: game.source,
+      image: game.image || "",
+      category: game.category || "",
+      featured: !!game.featured
+    }))
+  });
+}
+
+function loadCatalogCache() {
+  const cached = readJSON(
+    CACHE_KEY,
+    null
+  );
+
+  if (
+    !cached ||
+    !Array.isArray(cached.games)
+  ) return false;
+
+  if (
+    Date.now() - (cached.savedAt || 0) >
+    CACHE_MAX_AGE
+  ) {
+    return false;
+  }
+
+  // Old entries from the removed catalog are automatically
+  // discarded because that source no longer exists.
+  games = cached.games
+    .filter(game =>
+      game &&
+      game.id &&
+      game.title &&
+      game.url &&
+      SOURCES[game.source]
+    )
+    .map(game => ({
+      id: game.id,
+      title: game.title,
+      url: game.url,
+      source: game.source,
+      image: game.image || "",
+      category: game.category || "",
+      featured: !!game.featured
+    }));
+
+  itchPage = Math.max(
+    1,
+    Number(cached.itchPage) || 1
+  );
+
+  itchHasMore = cached.itchHasMore === true;
+
+  const savedOpenIndex = Number(
+    cached.openCategoryIndex
+  );
+
+  openCategoryIndex = Number.isFinite(savedOpenIndex)
+    ? Math.max(
+        -1,
+        Math.min(
+          OPEN_SOURCE_PAGES.length - 1,
+          savedOpenIndex
+        )
+      )
+    : -1;
+
+  openHasMore = cached.openHasMore === true;
+
+  return games.length > 0;
+}
+
+/* =========================================================
+   SYNCHRONIZATION
+========================================================= */
+
+async function syncCatalogs() {
+  if (refreshInProgress) return;
+
+  refreshInProgress = true;
+
+  $("refreshButton").disabled = true;
+  $("refreshButton").textContent = "Syncing…";
+
+  sourceState = {
+    wasm: "loading",
+    brain: "loading",
+    itch: "loading",
+    open: "loading"
+  };
+
+  sourceMessages = {
+    wasm: "Connecting…",
+    brain: "Connecting…",
+    itch: "Preparing games…",
+    open: "Preparing games…"
+  };
+
+  renderStatuses();
+
+  await Promise.allSettled([
+    loadWasm(),
+    loadBrain(),
+    loadItch(),
+    loadOpen()
+  ]);
+
+  refreshInProgress = false;
+
+  $("refreshButton").disabled = false;
+  $("refreshButton").textContent = "↻ Sync";
+
+  renderAll();
+  saveCatalog();
+}
+
+/* =========================================================
+   FILTERING AND SORTING
+========================================================= */
+
+function sourceName(source) {
+  return SOURCES[source]?.tag || "UNKNOWN";
+}
+
+function getGame(id) {
+  return games.find(
+    game => game.id === id
+  );
+}
+
+function getRecentGames() {
+  return recent
+    .map(id => getGame(id))
+    .filter(Boolean);
+}
+
+function getVisibleGames() {
+  const query = normalizeText(
+    $("searchInput").value
+  ).toLowerCase();
+
+  const source = $("sourceFilter").value;
+
+  let list = [...games];
+
+  if (source !== "all") {
+    list = list.filter(
+      game => game.source === source
+    );
+  }
+
+  if (query) {
+    list = list.filter(game =>
+      game.title.toLowerCase().includes(query) ||
+      (game.category || "")
+        .toLowerCase()
+        .includes(query)
+    );
+  }
+
+  if (currentView === "featured") {
+    list = list.filter(
+      game => game.featured
+    );
+  }
+
+  if (currentView === "favorites") {
+    list = list.filter(
+      game => favorites.has(game.id)
+    );
+  }
+
+  if (currentView === "recent") {
+    const order = new Map(
+      recent.map((id, index) => [
+        id,
+        index
+      ])
+    );
+
+    list = list
+      .filter(game => order.has(game.id))
+      .sort((a, b) =>
+        order.get(a.id) - order.get(b.id)
+      );
+  }
+
+  const sort = $("sortSelect").value;
+
+  if (sort === "az") {
+    list.sort((a, b) =>
+      a.title.localeCompare(b.title)
+    );
+  }
+
+  if (sort === "za") {
+    list.sort((a, b) =>
+      b.title.localeCompare(a.title)
+    );
+  }
+
+  return list;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+function cardHTML(game) {
+  const hasImage = !!game.image;
+
+  return `
+    <article class="game-card">
+
+      <div
+        class="thumb"
+        data-play="${escapeHTML(game.id)}"
+      >
+
+        <div class="thumb-fallback">
+          <span>${escapeHTML(
+            game.title.slice(0, 1).toUpperCase()
+          )}</span>
+        </div>
+
+        ${hasImage ? `
+          <img
+            src="${escapeHTML(game.image)}"
+            loading="lazy"
+            decoding="async"
+            alt="${escapeHTML(game.title)}"
+            onload="this.previousElementSibling.style.display='none'"
+            onerror="this.remove()"
+          >
+        ` : ""}
+
+        <span class="source-tag">
+          ${escapeHTML(sourceName(game.source))}
+        </span>
+
+        <button
+          class="fav ${favorites.has(game.id) ? "active" : ""}"
+          data-fav="${escapeHTML(game.id)}"
+          title="Toggle favorite"
+          aria-label="Toggle favorite"
+        >
+          ${favorites.has(game.id) ? "♥" : "♡"}
+        </button>
+
+      </div>
+
+      <div class="card-info">
+
+        <div
+          class="card-title"
+          data-play="${escapeHTML(game.id)}"
+          title="${escapeHTML(game.title)}"
+        >
+          ${escapeHTML(game.title)}
+        </div>
+
+        <div class="card-meta">
+          <span>${escapeHTML(
+            game.category || "Browser game"
+          )}</span>
+
+          <span>${game.featured ? "★ Featured" : ""}</span>
+        </div>
+
+        <button
+          class="card-play"
+          data-play="${escapeHTML(game.id)}"
+        >
+          PLAY NOW ↗
+        </button>
+
+      </div>
+    </article>
+  `;
+}
+
+function renderGrid(
+  target,
+  list,
+  emptyTitle,
+  emptyText
+) {
+  const element = $(target);
+
+  if (!list.length) {
+    element.innerHTML = `
+      <div class="empty">
+        <strong>${escapeHTML(emptyTitle)}</strong>
+        ${escapeHTML(emptyText)}
+      </div>
+    `;
+
+    return;
+  }
+
+  element.innerHTML = list
+    .map(cardHTML)
+    .join("");
+}
+
+/* =========================================================
+   LOAD MORE
+========================================================= */
+
+function canFetchMore() {
+  const filter = $("sourceFilter").value;
+
+  const canLoadItch =
+    itchHasMore &&
+    (filter === "all" || filter === "itch");
+
+  const canLoadOpen =
+    openHasMore &&
+    (filter === "all" || filter === "open");
+
+  return canLoadItch || canLoadOpen;
+}
+
+async function loadNextCatalogPage() {
+  if (moreLoading) return;
+
+  const filter = $("sourceFilter").value;
+
+  if (filter === "itch") {
+    await loadNextItchPage();
+    return;
+  }
+
+  if (filter === "open") {
+    await loadNextOpenPage();
+    return;
+  }
+
+  if (filter !== "all") return;
+
+  const preferred = nextMoreSource;
+
+  nextMoreSource =
+    nextMoreSource === "open"
+      ? "itch"
+      : "open";
+
+  if (
+    preferred === "open" &&
+    openHasMore
+  ) {
+    await loadNextOpenPage();
+    return;
+  }
+
+  if (
+    preferred === "itch" &&
+    itchHasMore
+  ) {
+    await loadNextItchPage();
+    return;
+  }
+
+  if (openHasMore) {
+    await loadNextOpenPage();
+    return;
+  }
+
+  if (itchHasMore) {
+    await loadNextItchPage();
+  }
+}
+
+/* =========================================================
+   MAIN RENDER
+========================================================= */
+
+function renderAll() {
+  $("totalCount").textContent =
+    games.length.toLocaleString();
+
+  const featured = games
+    .filter(game => game.featured)
+    .slice(0, 10);
+
+  renderGrid(
+    "featuredGrid",
+    featured,
+    "No featured games yet",
+    "Featured games will appear as catalogs load."
+  );
+
+  $("featuredCount").textContent =
+    featured.length
+      ? `${featured.length} games`
+      : "";
+
+  const recentGames = getRecentGames()
+    .slice(0, 8);
+
+  renderGrid(
+    "recentGrid",
+    recentGames,
+    "Nothing played yet",
+    "Launch a game and it will show up here."
+  );
+
+  $("recentCount").textContent =
+    recentGames.length
+      ? `${recentGames.length} games`
+      : "";
+
+  const visible = getVisibleGames();
+
+  const headings = {
+    all: "All Games",
+    featured: "Featured Games",
+    recent: "Recently Played",
+    favorites: "Your Favorites"
+  };
+
+  const descriptions = {
+    all: "Everything currently discovered by AFTERHOURS",
+    featured: "Featured games from connected catalogs",
+    recent: "Your recent play history",
+    favorites: "Games you have saved"
+  };
+
+  $("mainHeading").textContent =
+    headings[currentView];
+
+  $("mainDescription").textContent =
+    descriptions[currentView];
+
+  $("resultCount").textContent =
+    `${visible.length.toLocaleString()} games`;
+
+  const shown = visible.slice(
+    0,
+    displayLimit
+  );
+
+  renderGrid(
+    "gamesGrid",
+    shown,
+    currentView === "favorites"
+      ? "No favorites saved"
+      : "No games found",
+    currentView === "favorites"
+      ? "Press the heart on a game card to save it."
+      : "Try another search or catalog filter."
+  );
+
+  const more = $("loadMoreButton");
+
+  const hasMoreLoaded =
+    visible.length > shown.length;
+
+  const shouldShowLoadMore =
+    hasMoreLoaded ||
+    (
+      currentView === "all" &&
+      canFetchMore()
+    );
+
+  if (shouldShowLoadMore) {
+    more.style.display = "block";
+    more.disabled = moreLoading;
+
+    if (moreLoading) {
+      more.textContent = "Loading more games…";
+
+    } else if (hasMoreLoaded) {
+      more.textContent =
+        `Load more games · ${Math.min(
+          PAGE_SIZE,
+          visible.length - shown.length
+        ).toLocaleString()} more`;
+
+    } else {
+      const filter = $("sourceFilter").value;
+
+      if (filter === "itch") {
+        more.textContent =
+          `Load more itch.io games · page ${itchPage + 1}`;
+
+      } else if (filter === "open") {
+        more.textContent =
+          "Discover more open-source games";
+
+      } else {
+        more.textContent =
+          "Discover more games";
+      }
+    }
+
+  } else {
+    more.style.display = "none";
+  }
+
+  const showExtraSections =
+    currentView === "all" &&
+    !$("searchInput").value &&
+    $("sourceFilter").value === "all";
+
+  $("featuredSection").style.display =
+    showExtraSections ? "block" : "none";
+
+  $("recentSection").style.display =
+    showExtraSections ? "block" : "none";
+}
+
+/* =========================================================
+   FAVORITES AND HISTORY
+========================================================= */
+
+function toggleFavorite(id) {
+  if (favorites.has(id)) {
+    favorites.delete(id);
+  } else {
+    favorites.add(id);
+  }
+
+  writeJSON(
+    FAVORITES_KEY,
+    [...favorites]
+  );
+
+  renderAll();
+}
+
+function rememberGame(id) {
+  recent = [
+    id,
+    ...recent.filter(value => value !== id)
+  ].slice(0, 60);
+
+  writeJSON(
+    RECENT_KEY,
+    recent
+  );
+
+  renderAll();
+}
+
+/* =========================================================
+   PLAYER
+========================================================= */
+
+
+function launchGame(id) {
+  const game = getGame(id);
+
+  if (!game) return;
+
+  activeGame = game;
+
+  rememberGame(id);
+
+  $("playerTitle").textContent = game.title;
+
+  // These games block iframe embedding.
+  const externalOnlyGames = [
+    "https://yarn.ynot.games/",
+    "https://sakura.billpwchan.art/"
+  ];
+
+  const gameURL = game.source === "itch"
+    ? game.embedUrl
+    : game.url;
+
+  const mustOpenExternally =
+    !gameURL ||
+    (game.source === "itch" && !game.embedUrl) ||
+    externalOnlyGames.includes(game.url);
+
+  if (mustOpenExternally) {
+    window.open(
+      game.url,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+    activeGame = null;
+    return;
+  }
+
+  $("gameFrame").src = gameURL;
+
+  $("playerOverlay").classList.add("open");
+
+  document.body.style.overflow = "hidden";
+}
+
+
+function closePlayer() {
+  $("playerOverlay").classList.remove("open");
+
+  $("gameFrame").src = "about:blank";
+
+  document.body.style.overflow = "";
+
+  activeGame = null;
+}
+
+$("closePlayer").addEventListener(
+  "click",
+  closePlayer
+);
+
+$("reloadGame").addEventListener("click", () => {
+  if (activeGame) {
+    $("gameFrame").src = activeGame.url;
+  }
+});
+
+$("openExternal").addEventListener("click", () => {
+  if (activeGame) {
+    window.open(
+      activeGame.url,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  }
+});
+
+$("fullscreenGame").addEventListener("click", () => {
+  const frame = $("gameFrame");
+
+  if (frame.requestFullscreen) {
+    frame.requestFullscreen();
+  }
+});
+
+$("playerOverlay").addEventListener("click", event => {
+  if (event.target === $("playerOverlay")) {
+    closePlayer();
+  }
+});
+
+document.addEventListener("keydown", event => {
+  if (
+    event.key === "Escape" &&
+    $("playerOverlay").classList.contains("open")
+  ) {
+    closePlayer();
+  }
+});
+
+/* =========================================================
+   UI EVENTS
+========================================================= */
+
+document.addEventListener("click", event => {
+  const favoriteButton =
+    event.target.closest("[data-fav]");
+
+  if (favoriteButton) {
+    event.stopPropagation();
+
+    toggleFavorite(
+      favoriteButton.dataset.fav
+    );
+
+    return;
+  }
+
+  const playButton =
+    event.target.closest("[data-play]");
+
+  if (playButton) {
+    launchGame(
+      playButton.dataset.play
+    );
+  }
+});
+
+$("searchInput").addEventListener("input", () => {
+  displayLimit = PAGE_SIZE;
+  renderAll();
+});
+
+$("sourceFilter").addEventListener("change", () => {
+  displayLimit = PAGE_SIZE;
+  renderAll();
+});
+
+$("sortSelect").addEventListener("change", () => {
+  displayLimit = PAGE_SIZE;
+  renderAll();
+});
+
+$("refreshButton").addEventListener(
+  "click",
+  syncCatalogs
+);
+
+$("loadMoreButton").addEventListener(
+  "click",
+  async () => {
+    if (moreLoading) return;
+
+    const visible = getVisibleGames();
+
+    // Reveal already-loaded games first.
+    if (visible.length > displayLimit) {
+      displayLimit += PAGE_SIZE;
+      renderAll();
+      return;
+    }
+
+    await loadNextCatalogPage();
+  }
+);
+
+$("favoritesShortcut").addEventListener("click", () => {
+  setView("favorites");
+
+  $("allGamesSection").scrollIntoView({
+    behavior: "smooth"
+  });
+});
+
+function setView(view) {
+  currentView = view;
+  displayLimit = PAGE_SIZE;
+
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.toggle(
+      "active",
+      tab.dataset.view === view
+    );
+  });
+
+  renderAll();
+}
+
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    setView(tab.dataset.view);
+  });
+});
+
+/* =========================================================
+   STARTUP
+========================================================= */
+
+renderStatuses();
+
+const hadCache = loadCatalogCache();
+
+if (hadCache) {
+  renderAll();
+
+  $("loadingMessage").textContent =
+    "Showing your saved catalog while sources refresh…";
+} else {
+  renderAll();
+}
+
+syncCatalogs();
+
+</script>
+</body>
+</html>
