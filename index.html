@@ -142,7 +142,6 @@ select:focus-visible {
   padding:35px 5% 70px;
 }
 
-/* HERO */
 
 .hero {
   min-height:335px;
@@ -240,7 +239,6 @@ select:focus-visible {
   letter-spacing:3px;
 }
 
-/* STATUS */
 
 .statusbar {
   display:flex;
@@ -288,7 +286,6 @@ select:focus-visible {
   50% { opacity:.3; }
 }
 
-/* TOOLBAR */
 
 .toolbar {
   display:flex;
@@ -338,7 +335,6 @@ select {
 
 select:focus { border-color:var(--purple); }
 
-/* NAVIGATION */
 
 .tabs {
   display:flex;
@@ -371,7 +367,6 @@ select:focus { border-color:var(--purple); }
   box-shadow:0 0 18px #8455d019;
 }
 
-/* SECTIONS */
 
 .section { margin-top:36px; }
 
@@ -401,7 +396,6 @@ select:focus { border-color:var(--purple); }
   font-size:10px;
 }
 
-/* GAME GRID */
 
 .grid {
   display:grid;
@@ -598,7 +592,6 @@ select:focus { border-color:var(--purple); }
 
 #allGamesSection { scroll-margin-top:100px; }
 
-/* FOOTER */
 
 .footer {
   display:flex;
@@ -613,7 +606,6 @@ select:focus { border-color:var(--purple); }
   letter-spacing:.7px;
 }
 
-/* GAME PLAYER */
 
 .overlay {
   display:none;
@@ -689,7 +681,6 @@ select:focus { border-color:var(--purple); }
   font-size:9px;
 }
 
-/* RESPONSIVE */
 
 @media(max-width:750px) {
   .topbar {
@@ -898,9 +889,6 @@ select:focus { border-color:var(--purple); }
 <script>
 "use strict";
 
-/* =========================================================
-   CONFIGURATION
-========================================================= */
 
 const SOURCES = {
   wasm: {
@@ -952,13 +940,6 @@ const CACHE_MAX_AGE = 1000 * 60 * 60 * 24 * 14;
 const PAGE_SIZE = 120;
 const ITCH_MAX_PAGES = 30;
 
-/* =========================================================
-   CURATED ITCH.IO HTML5 GAMES
-
-   These are verified browser-game project pages.
-   The live catalog reader is optional; these games are
-   available even when automated discovery is blocked.
-========================================================= */
 
 const ITCH_SEED_GAMES = [
   {
@@ -1011,12 +992,6 @@ const ITCH_SEED_GAMES = [
   }
 ];
 
-/* =========================================================
-   CURATED OPEN SOURCE GAMES
-
-   These are browser-play links from the actual catalog.
-   Entries marked AI-assisted have been excluded.
-========================================================= */
 
 const OPEN_SEED_GAMES = [
   {
@@ -1140,9 +1115,6 @@ const OPEN_SEED_GAMES = [
   }
 ];
 
-/* =========================================================
-   APPLICATION STATE
-========================================================= */
 
 let games = [];
 
@@ -1303,78 +1275,78 @@ async function fetchText(url, timeout = 15000) {
       cache: "no-store",
       signal: controller.signal,
       headers: {
-        "Accept": "text/plain,*/*"
-      }
-    });
+        "Accept": "text/plain,*
 
-    if (!response.ok) {
-      const error = new Error(
-        `HTTP ${response.status}`
-      );
 
-      error.status = response.status;
 
-      const retryAfter =
-        response.headers.get("Retry-After");
 
-      if (retryAfter) {
-        const seconds = Number(retryAfter);
 
-        if (Number.isFinite(seconds)) {
-          error.retryAfterMs = Math.max(
-            1000,
-            seconds * 1000
-          );
-        }
-      }
 
-      throw error;
-    }
 
-    return await response.text();
 
-  } finally {
-    clearTimeout(timer);
-  }
-}
 
-async function fetchTextRetry(
-  url,
-  timeout,
-  retries = 1
-) {
-  let lastError;
 
-  for (
-    let attempt = 0;
-    attempt <= retries;
-    attempt++
-  ) {
-    try {
-      return await fetchText(url, timeout);
 
-    } catch (error) {
-      lastError = error;
 
-      if (error.status === 429) break;
-      if (attempt >= retries) break;
 
-      await sleep(900 * (attempt + 1));
-    }
-  }
 
-  throw lastError;
-}
 
-async function fetchJSON(url, timeout) {
-  return JSON.parse(
-    await fetchTextRetry(url, timeout, 1)
-  );
-}
 
-/* =========================================================
-   GAME STORAGE
-========================================================= */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function gameId(source, url) {
   return `${source}:${url.toLowerCase()}`;
@@ -1503,9 +1475,6 @@ function seedGames(source, entries) {
   return added;
 }
 
-/* =========================================================
-   CATALOG ONE
-========================================================= */
 
 function addWasmGames(data) {
   if (!Array.isArray(data)) {
@@ -1580,9 +1549,6 @@ async function loadWasm() {
   saveCatalog();
 }
 
-/* =========================================================
-   CATALOG TWO
-========================================================= */
 
 function titleFromSlug(url) {
   try {
@@ -1884,9 +1850,6 @@ async function loadBrain() {
   saveCatalog();
 }
 
-/* =========================================================
-   READER RESPONSE HANDLING
-========================================================= */
 
 function unwrapReaderContent(raw) {
   const text = String(raw ?? "");
@@ -1912,7 +1875,6 @@ function unwrapReaderContent(raw) {
     }
 
   } catch {
-    // The reader already returned plain text.
   }
 
   return text;
@@ -1923,9 +1885,6 @@ function isReaderBlocked(text) {
     .test(String(text || ""));
 }
 
-/* =========================================================
-   MARKDOWN PARSING
-========================================================= */
 
 function extractMarkdownLinks(text) {
   const results = [];
@@ -1981,9 +1940,9 @@ function extractImageURLs(text, base) {
 
     if (!url) return;
 
-    if (!/\.(png|jpe?g|webp|gif|avif)(?:[?#]|$)/i.test(url)) {
+    if (!/\.(png|jpe?g|webp|gif|avif)(?:[?
       if (
-        !/\/(images?|uploads?|thumbnails?|media)\//i.test(url) &&
+        !/\/(images?|uploads?|thumbnails?|media)\
         !/itch\.io/i.test(url)
       ) return;
     }
@@ -1999,7 +1958,6 @@ function extractImageURLs(text, base) {
     });
   }
 
-  // Markdown images.
   const markdownRegex =
     /!\[[^\]]*\]\(\s*<?([^)\s>]+)>?(?:\s+["'][^"']*["'])?\s*\)/g;
 
@@ -2009,7 +1967,6 @@ function extractImageURLs(text, base) {
     addImage(match[1], match.index);
   }
 
-  // HTML images and lazy-loaded attributes.
   const doc = new DOMParser().parseFromString(
     source,
     "text/html"
@@ -2041,7 +1998,6 @@ function extractImageURLs(text, base) {
     }
   }
 
-  // CSS background images.
   const backgroundRegex =
     /background(?:-image)?\s*:\s*url\(["']?([^"')]+)["']?\)/gi;
 
@@ -2052,7 +2008,6 @@ function extractImageURLs(text, base) {
   return results.sort((a, b) => a.index - b.index);
 }
 
-// Find the closest image to a game listing.
 function findNearestImage(position, images, maxDistance = 5000) {
   let best = null;
   let bestDistance = Infinity;
@@ -2072,9 +2027,6 @@ function findNearestImage(position, images, maxDistance = 5000) {
   return best ? best.url : "";
 }
 
-/* =========================================================
-   CATALOG THREE — ITCH.IO HTML5
-========================================================= */
 
 function itchPageURL(page) {
   const base =
@@ -2428,7 +2380,6 @@ async function fetchItchProjectDetails(game) {
       "text/html"
     );
 
-    // Extract the cover image.
     const imageMeta =
       doc.querySelector('meta[property="og:image"]') ||
       doc.querySelector('meta[name="twitter:image"]');
@@ -2438,7 +2389,6 @@ async function fetchItchProjectDetails(game) {
       game.url
     );
 
-    // Extract the iframe HTML stored by itch.io.
     let embedURL = "";
 
     const placeholders = [
@@ -2471,7 +2421,6 @@ async function fetchItchProjectDetails(game) {
       }
     }
 
-    // Update the existing catalog entry.
     let changed = false;
 
     if (imageURL && imageURL !== game.image) {
@@ -2562,7 +2511,6 @@ async function loadItch() {
       result.found > 0 &&
       result.hasNextPage;
 
-    // Also retrieve metadata for curated games.
     const allItchIds = games
       .filter(game => game.source === "itch")
       .map(game => game.id);
@@ -2585,7 +2533,6 @@ async function loadItch() {
 
     itchHasMore = false;
 
-    // Still attempt to enrich the curated games.
     const allItchIds = games
       .filter(game => game.source === "itch")
       .map(game => game.id);
@@ -2661,23 +2608,20 @@ async function loadNextItchPage() {
   }
 }
 
-/* =========================================================
-   CATALOG FOUR — OPEN SOURCE GAMES
-========================================================= */
 
 function openSourcePageURL(path = "") {
   const cleanPath = String(path || "")
     .replace(/^\/+|\/+$/g, "");
 
   return cleanPath
-    ? `https://r.jina.ai/https://opensourcegames.dev/${cleanPath}`
+    ? `https:
     : SOURCES.open.readerRoot;
 }
 
 function findHeadingBefore(text, position) {
   const headings = [
     ...text.matchAll(
-      /^#{2,6}\s+(.+)$/gm
+      /^
     )
   ].filter(match =>
     match.index < position
@@ -2727,7 +2671,6 @@ function parseOpenSourceMarkdown(text) {
 
     const block = content.slice(start, end);
 
-    // Skip the featured section; use the main catalog entries.
     if (!/\bBrowser play\b/i.test(block)) continue;
 
     if (/\bAI-assisted\b/i.test(block)) continue;
@@ -2778,7 +2721,6 @@ function parseOpenSourceMarkdown(text) {
 
     if (!slug) continue;
 
-    // Find the real game URL in the featured listing when possible.
     const existing = games.find(game =>
       game.source === "open" &&
       normalizeText(game.title).toLowerCase() ===
@@ -2854,7 +2796,6 @@ function parseOpenSourceHTML(html) {
     let node = anchor.parentElement;
     let card = null;
 
-    // Find the nearest containing game card with a heading.
     for (
       let depth = 0;
       depth < 10 && node;
@@ -2923,7 +2864,7 @@ function parseOpenSourceHTML(html) {
     const categoryLink = [
       ...card.querySelectorAll("a[href]")
     ].find(link =>
-      /\/(genres|genre)\//i.test(
+      /\/(genres|genre)\
         link.getAttribute("href") || ""
       )
     );
@@ -2978,7 +2919,6 @@ async function fetchOpenSourcePage(path = "") {
 }
 
 async function loadOpen() {
-  // Static verified entries are available immediately.
   seedGames("open", OPEN_SEED_GAMES);
 
   setSource(
@@ -2992,8 +2932,6 @@ async function loadOpen() {
 
     openCategoryIndex = -1;
 
-    // Additional categories are enabled only when the
-    // homepage parser successfully identifies game cards.
     openHasMore = result.found > 0;
 
     const count = getSourceCount("open");
@@ -3095,9 +3033,6 @@ async function loadNextOpenPage() {
   }
 }
 
-/* =========================================================
-   CACHE
-========================================================= */
 
 function saveCatalog() {
   writeJSON(CACHE_KEY, {
@@ -3140,8 +3075,6 @@ function loadCatalogCache() {
     return false;
   }
 
-  // Old entries from the removed catalog are automatically
-  // discarded because that source no longer exists.
   games = cached.games
     .filter(game =>
       game &&
@@ -3186,9 +3119,6 @@ function loadCatalogCache() {
   return games.length > 0;
 }
 
-/* =========================================================
-   SYNCHRONIZATION
-========================================================= */
 
 async function syncCatalogs() {
   if (refreshInProgress) return;
@@ -3230,9 +3160,6 @@ async function syncCatalogs() {
   saveCatalog();
 }
 
-/* =========================================================
-   FILTERING AND SORTING
-========================================================= */
 
 function sourceName(source) {
   return SOURCES[source]?.tag || "UNKNOWN";
@@ -3318,9 +3245,6 @@ function getVisibleGames() {
   return list;
 }
 
-/* =========================================================
-   CARDS
-========================================================= */
 
 function cardHTML(game) {
   const hasImage = !!game.image;
@@ -3419,9 +3343,6 @@ function renderGrid(
     .join("");
 }
 
-/* =========================================================
-   LOAD MORE
-========================================================= */
 
 function canFetchMore() {
   const filter = $("sourceFilter").value;
@@ -3487,9 +3408,6 @@ async function loadNextCatalogPage() {
   }
 }
 
-/* =========================================================
-   MAIN RENDER
-========================================================= */
 
 function renderAll() {
   $("totalCount").textContent =
@@ -3626,9 +3544,6 @@ function renderAll() {
     showExtraSections ? "block" : "none";
 }
 
-/* =========================================================
-   FAVORITES AND HISTORY
-========================================================= */
 
 function toggleFavorite(id) {
   if (favorites.has(id)) {
@@ -3659,9 +3574,6 @@ function rememberGame(id) {
   renderAll();
 }
 
-/* =========================================================
-   PLAYER
-========================================================= */
 
 
 function launchGame(id) {
@@ -3675,7 +3587,6 @@ function launchGame(id) {
 
   $("playerTitle").textContent = game.title;
 
-  // These games block iframe embedding.
   const externalOnlyGames = [
     "https://yarn.ynot.games/",
     "https://sakura.billpwchan.art/"
@@ -3763,9 +3674,6 @@ document.addEventListener("keydown", event => {
   }
 });
 
-/* =========================================================
-   UI EVENTS
-========================================================= */
 
 document.addEventListener("click", event => {
   const favoriteButton =
@@ -3818,7 +3726,6 @@ $("loadMoreButton").addEventListener(
 
     const visible = getVisibleGames();
 
-    // Reveal already-loaded games first.
     if (visible.length > displayLimit) {
       displayLimit += PAGE_SIZE;
       renderAll();
@@ -3857,9 +3764,6 @@ document.querySelectorAll(".tab").forEach(tab => {
   });
 });
 
-/* =========================================================
-   STARTUP
-========================================================= */
 
 renderStatuses();
 
